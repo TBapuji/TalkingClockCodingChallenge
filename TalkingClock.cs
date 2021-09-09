@@ -22,6 +22,7 @@ namespace TalkingClockCodingChallenge
         public static string Time(string time)
         {
             DateTime dateTime;
+            if(String.IsNullOrEmpty(time)){ time = DateTime.Now.ToString("HH:mm"); }
             if(CorrectFormat(time, out dateTime))
             {
                 if(MoreThanHalfPast(dateTime.Minute)) { dateTime = dateTime.AddHours(1); } // e.g. 14:35 is twenty five to THREE (not TWO)
@@ -39,7 +40,7 @@ namespace TalkingClockCodingChallenge
         {
             //This checks if the time entered is in the required format
             //TODO: refactor e.g store formats separately and have a new parameter string[] timeFormats
-            string formatSingleHourDigit = "H:mm";    //24 hour formats
+            string formatSingleHourDigit = "H:mm";    //cover both allowed time formats
             string formatDoubleHourDigit = "HH:mm";
             
             return (DateTime.TryParseExact(time, formatSingleHourDigit, CultureInfo.InvariantCulture, DateTimeStyles.None, out dateTime)
@@ -53,7 +54,6 @@ namespace TalkingClockCodingChallenge
             {
                 if(hourNumber-1==i)
                 return hours[i];
-
             }
             
             throw new Exception("Spoken hours not found");
@@ -71,17 +71,14 @@ namespace TalkingClockCodingChallenge
                 if(minuteNumber == i)
                 // could have the function as bool and set value to private property...
                     return minutes[i];
-
             }
             throw new Exception("Spoken minutes not found");
-            //return "";
         }
         private static string GetSpokenSpeechPart(DateTime dateTime)
         {
             string spokenSpeechPart = String.Empty;
             if(dateTime.Minute == 00) { spokenSpeechPart = "o'clock"; }
             else if(dateTime.Minute > 00 && dateTime.Minute <= 30) { spokenSpeechPart = "past"; }
-            //else if(dateTime.Minute == 30) { spokenSpeechPart = "half past"; }
             else if(dateTime.Minute > 30) { spokenSpeechPart = "to"; }
             return spokenSpeechPart;
         }
@@ -99,7 +96,6 @@ namespace TalkingClockCodingChallenge
         {
             if(String.IsNullOrEmpty(text)) throw new ArgumentException();
             return text.First().ToString().ToUpper() + text.Substring(1);
-
         }
     }
 }
