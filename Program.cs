@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 
 namespace TalkingClockCodingChallenge
 {
@@ -6,10 +7,23 @@ namespace TalkingClockCodingChallenge
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Enter time for talking clock");
-            string time = Console.ReadLine();
-            Console.WriteLine(TalkingClock.Time(time));
-            Console.ReadLine();
+            string instruction = "Please use format h:mm or hh:mm, where h is hour and m is minute.";
+            Console.WriteLine("Talking Clock");
+            Console.WriteLine("To get current time simply hit return.");
+            Console.WriteLine("To get user-defined time enter time and hit return.");
+            Console.WriteLine($"{instruction}");
+            while(true)
+            {
+                try
+                {
+                    string? t1 = Console.ReadLine();
+                    Console.WriteLine(TalkingClock.Time(t1));
+                }
+                catch(Exception e)
+                {
+                    Console.WriteLine($"{instruction}");
+                }
+            }
         }
     }
 }
